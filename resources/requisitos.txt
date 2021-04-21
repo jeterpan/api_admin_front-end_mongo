@@ -1,4 +1,38 @@
 
+MONGO_CONNECTIONSTRING=mongodb://mongo:27017/docker-node-mongo
+
+MONGO_USER
+
+# Escopo destas variaveis de ambiente
+NODE_ENV=DEVELOPMENT
+
+# Porta do servidor Web
+HTTP_PORT=3025
+
+# Configuracao para conexão com banco de dados MongoDB
+# mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+DB_HOST=
+DB_PORT=
+DB_NAME=
+DB_USER=
+DB_PASS=
+
+
+
+# Escopo destas variaveis de ambiente
+NODE_ENV=DEVELOPMENT
+
+# Porta do servidor Web
+HTTP_PORT=
+
+# Configuracao para conexão com banco de dados MongoDB
+# mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
+DB_HOST=
+DB_PORT=
+DB_NAME=
+DB_USER=
+DB_PASS=
+
 -- --------------------------------------------------------------------------------------------------
 
 Levantamento de requisitos
