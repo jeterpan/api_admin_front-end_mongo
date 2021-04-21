@@ -1,11 +1,12 @@
-const express = require('express');
-const mongoose = require('mongoose');
+// Módulos de terceiros
+const express = require('express')
+const mongoose = require('mongoose')
 
-const app = express();
+const app = express()
 
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs')
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false }))
 
 // Connect to MongoDB
 mongoose
@@ -14,9 +15,9 @@ mongoose
     { useNewUrlParser: true }
   )
   .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log(err));
+  .catch(err => console.log(err))
 
-const Item = require('./models/Item');
+const Item = require('./models/Item')
 
 app.get('/', (req, res) => {
   Item.find()
@@ -29,9 +30,9 @@ app.post('/item/add', (req, res) => {
     name: req.body.name
   });
 
-  newItem.save().then(item => res.redirect('/'));
+  newItem.save().then(item => res.redirect('/'))
 });
 
 const port = 3000;
 
-app.listen(port, () => console.log('Server running...'));
+app.listen(port, () => console.log('Server running...'))

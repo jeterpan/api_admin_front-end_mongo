@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+// Módulos de terceiros
+const mongoose = require('mongoose')
+
+const Schema = mongoose.Schema
 
 const ItemSchema = new Schema({
   name: {
@@ -10,6 +12,6 @@ const ItemSchema = new Schema({
     type: Date,
     default: Date.now
   }
-});
+})
 
-module.exports = usuario = mongoose.model('item', ItemSchema);
+module.exports = usuario = mongoose.model('item', ItemSchema)

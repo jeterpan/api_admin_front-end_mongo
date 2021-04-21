@@ -12,11 +12,11 @@ const roteador = require('../services/roteador.js')
 
 
 // @TODO: Ideia: Testar: Como o Node.js não termina seu processo enquanto tem algo para fazer:
-//         Pode ser que como não estamos usando o resolve da função abaixo, está
-//         deixando o Node.js em loop, apenas excutando os eventos.
+//         Pode ser que como não estamos usando o resolve() da função inicializa abaixo, está
+//         deixando o Node.js em loop, apenas excutando os eventos conforme eles acontecem.
 //        Checar se esse conceito procede, porque já aconteceu de eu criar,
 //         em outros projetos, funções de loop para evitar que o Node.js finalize
-//         e pode ser que isso não seja necessário
+//         e pode ser que isso não seja necessário aqui neste
 
 // Inicializa servidor Web
 

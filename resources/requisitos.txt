@@ -1,3 +1,23 @@
+
+-- --------------------------------------------------------------------------------------------------
+
+Levantamento de requisitos
+
+[ ] Interface Admin para cadastro de usuários que podem acessar determinado recurso
+    [ ] Usar banco de dados MongoDB
+        [ ] Levntar um Container Docker com MongoDB
+            [ ] Dados do banco devem ser persistentes (em volume fora do container)
+            [ ] Analisar como será possível fazer backup destes dados
+                [ ] Vai ter que fazer backup offline? (parar o container e fazer backup frio?)
+                [ ] Existe backup full online (quente) do MongoDB?
+            [ ] Sugerir em documentação que deve-se fazer backup dos dados
+    [ ] Permitir usuário admin poder cadastrar novos usuários
+    Para o futuro: [ ] Acessar esta interface também via HTTPS://, portanto será necessário certificado
+
+-- --------------------------------------------------------------------------------------------------
+
+no Windows
+
 continuar...
 
     Nao funcionou o make no Windows (eu até fiz um makefile)
@@ -7,14 +27,16 @@ continuar...
         - Tentei usar como Terminal do VSCode o WSL, sem sucesso
             E mesmo que conseguisse, dentro do WSL tb não encontrei o make
 
-
+-- --------------------------------------------------------------------------------------------------
 
 Configurado o package.json com o seguinte os scripts:
 
 "dev": "nodemon -- -r dotenv/config app.js",
 "start": "pm2 node app.js --name dev-frontend-api-admin --watch --no-dameon"
 
+-- --------------------------------------------------------------------------------------------------
 
+Docker
 
 // Subindo um container com o MongoDB para este projeto
 docker container run -d -p 27017:27017 -v c:\Jeter\mongodb-dados --name mongo mongo:latest
