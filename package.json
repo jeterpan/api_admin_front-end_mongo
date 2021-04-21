@@ -21,6 +21,7 @@
     "start": "pm2 node app.js --name dev-frontend-api-admin --watch --no-dameon"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "JeterPan <41131222+jeterpan@users.noreply.github.com>",
+  "license": "ISC",
+  "repository": "https://github.com/jeterpan/api_admin_front-end_mongo.git"
 }

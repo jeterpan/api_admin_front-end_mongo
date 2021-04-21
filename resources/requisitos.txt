@@ -1,37 +1,4 @@
 
-MONGO_CONNECTIONSTRING=mongodb://mongo:27017/docker-node-mongo
-
-MONGO_USER
-
-# Escopo destas variaveis de ambiente
-NODE_ENV=DEVELOPMENT
-
-# Porta do servidor Web
-HTTP_PORT=3025
-
-# Configuracao para conexão com banco de dados MongoDB
-# mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
-DB_HOST=
-DB_PORT=
-DB_NAME=
-DB_USER=
-DB_PASS=
-
-
-
-# Escopo destas variaveis de ambiente
-NODE_ENV=DEVELOPMENT
-
-# Porta do servidor Web
-HTTP_PORT=
-
-# Configuracao para conexão com banco de dados MongoDB
-# mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}
-DB_HOST=
-DB_PORT=
-DB_NAME=
-DB_USER=
-DB_PASS=
 
 -- --------------------------------------------------------------------------------------------------
 
@@ -39,7 +6,9 @@ Levantamento de requisitos
 
 [ ] Interface Admin para cadastro de usuários que podem acessar determinado recurso
     [ ] Usar banco de dados MongoDB
-        [ ] Levntar um Container Docker com MongoDB
+        [ ] Habilitar autenticação no banco de dados MongoDB, pois pode ser que estar aplicacao estará
+                na Internet (numvem)
+        [ ] Levantar um Container Docker com MongoDB
             [ ] Dados do banco devem ser persistentes (em volume fora do container)
             [ ] Analisar como será possível fazer backup destes dados
                 [ ] Vai ter que fazer backup offline? (parar o container e fazer backup frio?)
@@ -47,11 +16,12 @@ Levantamento de requisitos
             [ ] Sugerir em documentação que deve-se fazer backup dos dados
     [ ] Permitir usuário admin poder cadastrar novos usuários
     Para o futuro: [ ] Acessar esta interface também via HTTPS://, portanto será necessário certificado
-    [ ] o Log da aplicação deve ficar fora do container em um volume
+    [ ] o Log da aplicação (morgan?) deve ficar fora do container em um volume
         [ ] verificar se tem como deixar este round-robin
     [ ] verificar se será interessante ter um log do container conforme video abaixo
         https://www.youtube.com/watch?v=z4Vmpc1BOx0
         [ ] Este por padrão creio que já é round-robin, mas checar se sim
+        [ ] checar se cada container tem o seu log? exemplo: API e BD, ou se estarão juntos
 
 -- --------------------------------------------------------------------------------------------------
 
@@ -65,6 +35,30 @@ continuar...
             O que será que estão usando?
         - Tentei usar como Terminal do VSCode o WSL, sem sucesso
             E mesmo que conseguisse, dentro do WSL tb não encontrei o make
+
+-- --------------------------------------------------------------------------------------------------
+
+Fontes:
+
+Segurança do banco de dados:
+https://www.youtube.com/watch?v=SY_9zwb29LA&t=73s
+[ MongoDB 4 ] Configuring authentication, users and roles in MongoDB
+Configurando o banco de dados MongoDB para autenticação
+
+https://www.youtube.com/watch?v=hP77Rua1E0c&t=90s
+exemplo de interface simples de cadastro de usuarios acessando o mongodb
+Node.js usando EJS para prover uma interface simples para cadastro de usuário
+
+Ideias desta aplicação, retiradas de:
+https://www.youtube.com/watch?v=z4Vmpc1BOx0
+
+.env
+make up
+docker-compose
+MongoDB
+pm2
+Node.js
+
 
 -- --------------------------------------------------------------------------------------------------
 
@@ -115,3 +109,58 @@ Adicionar { useUnifiedTopology: true } á string de conexão, e tem que ser dest
 
 -- --------------------------------------------------------------------------------------------------
 
+Problema
+Ao executar
+make up
+no MacBook apresenta a mensagem:
+
+ERROR: The Compose file './docker-compose.yml' is invalid because:
+services.db.ports contains an invalid type, it should be a number, or an object
+make: *** [up] Error 1
+
+Causa
+
+Apesar do problema parecer ser algo incorreto que definimos no arquivo docker-compose.yml, pode ser que a
+    causa na verdade, seja porque nao definimos antes uma variavel que será substituida ali no arquivo
+    docker-compose.yml
+Neste caso por exemplo, o problema era na linha - ${DB_PORT}:27017
+
+services:
+    db:
+        image: mongo:latest
+        container_name: db
+        restart: always
+        ports:
+            - ${DB_PORT}:27017
+
+porem a variável não tinha sido anteriormente definida nem no ambiente e nem no arquivo .env
+ao executar então o: make up, ele não encontrava esta variável para substituir o DB_PORT
+
+Solucao
+
+Definir antes a variavel DB_PORT no arquivo .env
+
+-- --------------------------------------------------------------------------------------------------
+
+Docker compose para ambiente produção
+
+version: "3.2"
+services:
+    db:
+        image: mongo:latest
+        container_name: db
+        restart: always
+        ports:
+            - ${DB_PORT}:27017
+        environment: 
+            MONGO_INITDB_DATABASE: ${DB_NAME}
+            MONGO_INITDB_USERNAME: ${DB_USER}
+            MONGO_INITDB_PASSWORD: ${DB_PASS}
+    nodeauth: 
+        image: jetercosta/authadmin_mongo
+        container_name: authadmin_mongo
+        restart: always
+        depends_on: 
+            - db
+        ports:
+            - ${HTTP_PORT}:${HTTP_PORT}

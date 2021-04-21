@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 
 // Módulos desta aplicação
-const cfgBancoMongo = require('../configs/banco-mongo.js')
+const { DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME } = require('../configs/banco-mongo.js')
 
 
 // Inicializa a conexão com o banco de dados
@@ -13,7 +13,8 @@ async function inicializa() {
 
     mongoose
         .connect(
-            cfgBancoMongo.connectString
+            `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}`
+            //cfgBancoMongo.connectString
             , { useUnifiedTopology: true
                 , useNewUrlParser: true }
         )
