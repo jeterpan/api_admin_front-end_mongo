@@ -1,0 +1,56 @@
+continuar...
+
+    Nao funcionou o make no Windows (eu até fiz um makefile)
+        - Tentei Cygwin
+        - Tentei baixar outros como GNUWin, mas, a maior parte está tudo fora do ar. A impressão que dá é que ninguem está usando mais estas soluções
+            O que será que estão usando?
+        - Tentei usar como Terminal do VSCode o WSL, sem sucesso
+            E mesmo que conseguisse, dentro do WSL tb não encontrei o make
+
+
+
+Configurado o package.json com o seguinte os scripts:
+
+"dev": "nodemon -- -r dotenv/config app.js",
+"start": "pm2 node app.js --name dev-frontend-api-admin --watch --no-dameon"
+
+
+
+// Subindo um container com o MongoDB para este projeto
+docker container run -d -p 27017:27017 -v c:\Jeter\mongodb-dados --name mongo mongo:latest
+
+// Conectando ao container
+docker container exec -it mongo bash
+
+// Conectando ao banco de dados
+mongo
+
+// Verificando os bancos de dados existentes
+show dbs
+
+
+// Subindo o container, usando Makefile para carregar variáveis de ambiente e chamar docker-compose
+make up
+
+// Verificando os logs gerados pelo container
+make logs
+
+-- --------------------------------------------------------------------------------------------------
+
+Problema
+[MONGODB DRIVER] Warning: Current Server Discovery and Monitoring engine is deprecated, and will be removed in a future version. 
+To use the new Server Discover and Monitoring engine, pass option { useUnifiedTopology: true } to the MongoClient constructor.
+
+Causa
+1 - Falta adicionar { useUnifiedTopology: true } na string de conexao
+2 - Você adicionou { useUnifiedTopology: true } à string de conexao, mas o erro persiste, pode ser que você adicionou de forma errada. 
+Isso não pode ser adicionado em objeto separado e de preferência deve ser antes de qualquer outra operação
+
+CUIDADO: mesmo que você ja adicionou { useUnifiedTopology: true } à sua string de conexao e o problema ainda persiste
+
+Solucao
+Adicionar { useUnifiedTopology: true } á string de conexão, e tem que ser desta forma, onde ele fica primeiro e dentro do mesmo objeto:
+{ useUnifiedTopology: true, useNewUrlParser: true }
+
+-- --------------------------------------------------------------------------------------------------
+
