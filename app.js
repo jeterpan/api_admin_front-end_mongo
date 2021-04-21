@@ -1,16 +1,6 @@
 // Módulos desta aplicação
 const servidorWeb = require('./services/servidor-web.js')
-//const configBanco = require('./configs/oracle_db.js')
 const banco = require('./services/banco-mongo.js')
-
-
-// Configuração do tamanho da Thread Pool Size do Node.js
-//const defaultThreadPoolSize = 10
-
-// Incrementamos número de threads da LibUV (Thread Pool Size do Node.js) com o tamanho máximo que configuramos em poolMax
-//  (que é o número máximo configurado de conexões que podemos ter entre Node.js e o driver OracleDB)
-//process.env.UV_THREADPOOL_SIZE = defaultThreadPoolSize + configBanco.logixPool.poolMax
-
 
 // Função para iniciar a aplicação
 
@@ -79,6 +69,9 @@ async function finaliza(e) {
         process.exit(0)
     }
 }
+
+
+// Eventos que podem causa a interrupção da aplicação
 
 
 // @TODO: Estudar melhor a documentação, pois, parece que se adicionarmos estes eventos

@@ -13,6 +13,11 @@ Levantamento de requisitos
             [ ] Sugerir em documentação que deve-se fazer backup dos dados
     [ ] Permitir usuário admin poder cadastrar novos usuários
     Para o futuro: [ ] Acessar esta interface também via HTTPS://, portanto será necessário certificado
+    [ ] o Log da aplicação deve ficar fora do container em um volume
+        [ ] verificar se tem como deixar este round-robin
+    [ ] verificar se será interessante ter um log do container conforme video abaixo
+        https://www.youtube.com/watch?v=z4Vmpc1BOx0
+        [ ] Este por padrão creio que já é round-robin, mas checar se sim
 
 -- --------------------------------------------------------------------------------------------------
 
